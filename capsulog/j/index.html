@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>캡슐로그 초대 · Capsulog invitation</title>
+<style>
+:root{--bg:#c3ccd0;--paper:#f6f1e7;--ink:#2b2a27;--muted:#6f6b63;--green:#2d6b5f}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Hiragino Sans","Noto Sans KR",sans-serif}
+main{max-width:420px;margin:0 auto;padding:56px 20px 40px;min-height:100vh;display:flex;flex-direction:column;align-items:center;text-align:center}
+.book{width:120px;height:156px;border-radius:6px 12px 12px 6px;background:#7a4a2b;box-shadow:inset 8px 0 0 rgba(0,0,0,.18),0 10px 24px rgba(0,0,0,.18);margin-bottom:28px;position:relative}
+.book::after{content:"";position:absolute;right:-6px;top:64px;width:22px;height:10px;border-radius:5px;background:#5a3520}
+h1{font-size:21px;font-weight:600;margin:0 0 10px}
+p{margin:0 0 18px;color:var(--muted);font-size:15px}
+.code{font:600 30px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;background:var(--paper);border-radius:14px;padding:18px 20px;margin:4px 0 22px;width:100%;user-select:all}
+a.btn{display:block;width:100%;padding:15px;border-radius:14px;text-decoration:none;font-size:16px;margin-bottom:10px}
+a.pri{background:var(--green);color:#fff}
+a.sec{background:var(--paper);color:var(--ink)}
+small{color:var(--muted);font-size:13px;margin-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="book" aria-hidden="true"></div>
+  <h1 id="t"></h1>
+  <p id="b"></p>
+  <div class="code" id="code"></div>
+  <a class="btn pri" id="open"></a>
+  <a class="btn sec" id="store" href="https://apps.apple.com/app/id6835116436"></a>
+  <small id="s"></small>
+</main>
+<script>
+(function () {
+  var T = {
+    ko: { t: '같이 쓰는 다이어리에 초대받았어요', b: '캡슐로그 앱에서 ‘초대 코드로 들어가기’를 누르고 아래 코드를 넣으면 같이 쓸 수 있어요.', open: '캡슐로그에서 열기', store: '앱 받기', s: '코드를 길게 눌러 복사할 수 있어요.', none: '초대 코드가 없는 링크예요. 받은 메시지의 링크를 다시 눌러 주세요.' },
+    en: { t: "You're invited to a shared diary", b: 'In the Capsulog app, tap “Join with a code” and enter the code below to start writing together.', open: 'Open in Capsulog', store: 'Get the app', s: 'Press and hold the code to copy it.', none: "This link has no invitation code. Please tap the link in the message again." },
+    ja: { t: 'みんなの日記に招待されました', b: 'カプセルログのアプリで「招待コードで参加」をタップして、下のコードを入れると一緒に書けます。', open: 'カプセルログで開く', store: 'アプリを入手', s: 'コードを長押しするとコピーできます。', none: '招待コードのないリンクです。届いたメッセージのリンクをもう一度タップしてください。' }
+  };
+  var l = (navigator.language || 'en').slice(0, 2);
+  var L = T[l] ? l : 'en';
+  document.documentElement.lang = L;
+  var x = T[L];
+  var m = /[?&]c=([A-Za-z0-9]{6,12})/.exec(location.search);
+  var code = m ? m[1].toUpperCase() : '';
+  document.getElementById('t').textContent = x.t;
+  document.getElementById('b').textContent = code ? x.b : x.none;
+  document.getElementById('code').textContent = code || '—';
+  document.getElementById('s').textContent = code ? x.s : '';
+  var open = document.getElementById('open');
+  open.textContent = x.open;
+  if (code) open.href = 'capsulog://j/' + code; else open.style.display = 'none';
+  document.getElementById('store').textContent = x.store;
+  if (/Android/i.test(navigator.userAgent)) document.getElementById('store').style.display = 'none';
+})();
+</script>
+</body>
+</html>
